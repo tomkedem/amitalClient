@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ItemTodo, TodoService, Users, UsersService } from 'src/api';
-import {MatSelectModule} from '@angular/material/select';
-import { tap } from 'rxjs';
 import { DataService } from 'src/services/data.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +12,7 @@ import { DataService } from 'src/services/data.service';
 export class AppComponent implements OnInit {
   
   title = 'amitalTestPro';
-  constructor(private fb: FormBuilder,private dataService: DataService,
+  constructor(private fb: FormBuilder,private dataService:DataService,
     private usersService: UsersService,
     private todoService: TodoService) {
     
@@ -58,11 +57,14 @@ export class AppComponent implements OnInit {
          
           console.log('after save',this.itemTodo1);
           
-          this.todoService.addTask(this.itemTodo1).pipe(
-            tap(()=>{
+          this.todoService.addTask(this.itemTodo1).subscribe({
+            next: (res) => {
+              this.itemTodo = res;
               this.dataService.RefreshRquired.next();
-            })      
-          );
+            },
+            error: (e) => console.error(e),
+      
+          })
         }
       },
       error: (e) => console.error(e),
