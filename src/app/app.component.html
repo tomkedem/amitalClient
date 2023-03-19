@@ -1,0 +1,45 @@
+<div dir="rtl">
+<table>
+  <tr>
+    <td>
+      <div [formGroup]="AddItemForm" dir="rtl">
+        <h4>הוספת נושא </h4>
+        <br/>
+        <br/>
+        <br/>
+      
+        
+      <label for="subject">נושא:</label>
+      <input formControlName="description" type="text" id="subject" name="subject"><br><br>
+      
+      
+      
+        <label>משתמש</label>
+        <select formControlName="userId">
+          <option *ngFor="let user of users" [value]="user.id" >
+            {{user.fullName}}
+          </option>
+        </select>
+        <br/>
+        
+      <div>
+        <input formControlName="done" type="checkbox" id="done" name="done" checked>
+        <label for="done">בוצע</label>
+      </div>
+        <br/>
+        <br/>
+        <span (click)="saveItem()">שמירה</span>
+      
+        
+      </div>
+    </td>
+    <td>
+
+      <div style="max-width: 300px; overflow: auto;">
+        <app-items-list></app-items-list>
+        </div>
+    </td>
+  </tr>
+  
+</table>
+</div>

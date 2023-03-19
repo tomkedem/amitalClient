@@ -1,0 +1,34 @@
+
+
+<div [formGroup]="AddItemForm" dir="rtl" style="border-style: solid;">
+  
+
+  
+<label for="subject">נושא:</label>
+<input formControlName="description" type="text" id="subject" name="subject"><br><br>
+
+
+
+
+  <!-- <label>משתמש</label>
+  <select formControlName="userId">
+    <option *ngFor="let user of users" [value]="user.id" >
+      {{user.fullName}}
+    </option>
+  </select>
+  <br/> -->
+  <div>
+    <label for="fullName">משתמש</label>
+    <input formControlName="fullName" type="text" id="fullName" name="fullName" checked>
+    
+  </div>
+  <div>
+    <input formControlName="done" type="checkbox" id="done" name="done" checked>
+    <label for="done">בוצע</label>
+  </div>
+  <br/>
+  <br/>
+ 
+
+  
+</div>
