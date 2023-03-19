@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ItemTodo, TodoService, Users, UsersService } from 'src/api';
 import {MatSelectModule} from '@angular/material/select';
+import { tap } from 'rxjs';
+import { DataService } from 'src/services/data.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +13,7 @@ import {MatSelectModule} from '@angular/material/select';
 export class AppComponent implements OnInit {
   
   title = 'amitalTestPro';
-  constructor(private fb: FormBuilder,
+  constructor(private fb: FormBuilder,private dataService: DataService,
     private usersService: UsersService,
     private todoService: TodoService) {
     
@@ -20,9 +22,8 @@ export class AppComponent implements OnInit {
   AddItemForm = this.fb.group({   
     id:0, 
     description: ['', [Validators.required]],
-    done:[false],
-    userId: [0],
-    
+    done:false,
+    userId: 0,    
     fullName:''
   });
 
@@ -43,6 +44,8 @@ export class AppComponent implements OnInit {
           alert("לא ניתן להוסיף יותר מ 10 משימות למשתמש")
         }else{
           console.log('realyGo to save',this.AddItemForm.value);
+          
+         
           this.itemTodo1={
 
             description:this.AddItemForm.value.description,
@@ -55,14 +58,11 @@ export class AppComponent implements OnInit {
          
           console.log('after save',this.itemTodo1);
           
-          this.todoService.addTask(this.itemTodo1).subscribe({
-            next: (res) => {
-              this.itemTodo = res;
-              console.log(res);
-            },
-            error: (e) => console.error(e),
-      
-          })
+          this.todoService.addTask(this.itemTodo1).pipe(
+            tap(()=>{
+              this.dataService.RefreshRquired.next();
+            })      
+          );
         }
       },
       error: (e) => console.error(e),

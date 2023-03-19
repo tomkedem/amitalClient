@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemTodo, TodoService } from 'src/api';
+import { DataService } from 'src/services/data.service';
 
 @Component({
   selector: 'app-items-list',
@@ -9,17 +10,21 @@ import { ItemTodo, TodoService } from 'src/api';
 export class ItemsListComponent implements OnInit {
   itemTodo!: ItemTodo[]
 
-  constructor(private todoService: TodoService) { }
+  constructor(private dataService: DataService,private todoService: TodoService) { }
   
 
   ngOnInit(): void {
     this.loadItemTodo()
+    this.dataService.RefreshRquired.subscribe(res=>{
+      this.loadItemTodo()
+    })
   }
   loadItemTodo(){
 
     this.todoService.getTaskList().subscribe(itemTodo =>{
       this.itemTodo= itemTodo;
-    })
+    });
+
 
   }
 
